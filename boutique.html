@@ -13,24 +13,22 @@
     /* Boutique page specific styles */
     .page-hero {
       padding: var(--space-32) 0 var(--space-16);
-      background: linear-gradient(135deg, var(--color-bg) 0%, #f0e6d6 50%, var(--color-bg) 100%);
+      background: url('../images/hero-bg.jpg') center/cover no-repeat fixed !important;
       text-align: center;
       position: relative;
       overflow: hidden;
+      color: var(--color-white);
     }
+    .page-hero h1, .page-hero .section-title { color: var(--color-white); }
+    .page-hero .section-desc { color: rgba(255,255,255,0.85); }
     .page-hero::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 70%, rgba(184,134,11,0.04) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 30%, rgba(45,90,39,0.03) 0%, transparent 50%);
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,15,10,0.65) 0%, rgba(44,24,16,0.5) 50%, rgba(26,15,10,0.65) 100%);
       pointer-events: none;
     }
-    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
-    .page-hero .section-desc { max-width: 600px; margin: 0 auto; }
+    .page-hero .container { position: relative; z-index: 1; }
     .page-hero .hero-badge {
       display: inline-block;
       font-family: var(--font-body);
@@ -41,19 +39,13 @@
       color: var(--color-primary);
       margin-bottom: var(--space-4);
       padding: var(--space-1) var(--space-4);
-      border: 1px solid rgba(184,134,11,0.25);
+      border: 1px solid rgba(184,134,11,0.5);
       border-radius: var(--radius-full);
-      background: rgba(184,134,11,0.06);
+      background: rgba(184,134,11,0.15);
+      backdrop-filter: blur(4px);
     }
-    .page-hero::after {
-      content: '✦';
-      position: absolute;
-      bottom: var(--space-8);
-      right: var(--space-16);
-      font-size: 4rem;
-      color: var(--color-primary);
-      opacity: 0.08;
-    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+    .page-hero .section-desc { max-width: 600px; margin: 0 auto; }
 
     /* Filters */
     .filtres-section {
@@ -107,12 +99,12 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-base), box-shadow var(--transition-base);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       position: relative;
     }
     .produit-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
     }
     .produit-card .produit-badge {
       position: absolute;
@@ -140,10 +132,10 @@
     .produit-card .produit-img i {
       font-size: 3.5rem;
       filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-      transition: transform var(--transition-base);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .produit-card:hover .produit-img i {
-      transform: scale(1.1);
+      transform: scale(1.2);
     }
     .produit-card .produit-info {
       padding: var(--space-6);
@@ -194,11 +186,12 @@
       font-size: var(--text-sm);
       font-weight: 600;
       cursor: pointer;
-      transition: background var(--transition-base);
+      transition: all 0.3s ease;
       width: 100%;
       justify-content: center;
     }
     .btn-add-cart:hover { background: var(--color-accent-hover); }
+    .btn-add-cart:active { transform: scale(0.95); }
     .btn-add-cart i { font-size: var(--text-base); }
 
     .cart-badge {
@@ -221,10 +214,63 @@
       display: inline-flex;
     }
 
+    /* Enhanced fade-in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     @media (max-width: 768px) {
       .produits-grid { grid-template-columns: 1fr; }
       .filtres-section { position: relative; top: 0; }
+      .page-hero { background-attachment: scroll !important; }
     }
+  </style>
+  <style>
+  .page-header {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: brightness(0.5);
+  }
+  .page-header-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+  }
+  .page-header-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+  }
+  .page-header-content p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+  }
+  @media (max-width: 768px) {
+    .page-header { min-height: 35vh; padding: 6rem 1.5rem 3rem; }
+    .page-header-bg { background-attachment: scroll !important; }
+  }
+  @media (max-width: 768px) { .page-header-bg { background-attachment: scroll !important; } }
   </style>
 </head>
 <body>
@@ -247,6 +293,15 @@
         <li><a href="histoire.html">Notre Histoire</a></li>
         <li><a href="temoignages.html">Témoignages</a></li>
         <li><a href="monique.html">Monique</a></li>
+        <li class="nav-search-item">
+          <button class="nav-search-btn" id="searchToggle" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+          <div class="search-dropdown" id="searchDropdown">
+            <div class="search-dropdown-inner">
+              <input type="text" id="globalSearch" placeholder="Rechercher dans le site..." autocomplete="off">
+              <div class="search-results" id="searchResults"></div>
+            </div>
+          </div>
+        </li>
         <li class="nav-cta">
           <a href="boutique.html" class="nav-cart-wrap">
             <i class="fas fa-shopping-bag"></i> Boutique
@@ -397,6 +452,22 @@
       </div>
     </div>
   </section>
+
+  <!-- FOOTER INSTAGRAM STRIP -->
+  <div class="footer-insta-strip">
+    <div class="container">
+      <div class="insta-strip-label"><i class="fab fa-instagram"></i> Retrouvez-nous sur Instagram</div>
+      <div class="footer-insta-thumbs">
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-1.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-2.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-3.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-4.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-5.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-6.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+      </div>
+      <a href="#" class="insta-strip-follow" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Suivez @vertusancestrales</a>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">

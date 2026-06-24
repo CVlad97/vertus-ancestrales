@@ -9,6 +9,313 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* === HERO PARALLAX BACKGROUND === */
+    .hero {
+      background: url('images/hero-bg.jpg') center/cover no-repeat fixed !important;
+      position: relative;
+    }
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(26,15,10,0.7) 0%, rgba(44,24,16,0.5) 50%, rgba(26,15,10,0.7) 100%) !important;
+    }
+
+    /* === ENHANCED FADE-IN ANIMATIONS === */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* === SEARCH DROPDOWN === */
+    .nav-search-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nav-search-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-light);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: var(--space-2);
+      transition: color var(--transition-fast);
+      display: flex;
+      align-items: center;
+    }
+    .nav-search-btn:hover { color: var(--color-primary); }
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 360px;
+      max-width: 90vw;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      border: 1px solid var(--color-border);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 1000;
+    }
+    .search-dropdown.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .search-dropdown-inner {
+      padding: var(--space-4);
+    }
+    .search-dropdown-inner input {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      background: var(--color-bg);
+      transition: border-color var(--transition-fast);
+      box-sizing: border-box;
+    }
+    .search-dropdown-inner input:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+    }
+    .search-results {
+      margin-top: var(--space-3);
+      max-height: 320px;
+      overflow-y: auto;
+      display: none;
+    }
+    .search-result-item {
+      display: block;
+      padding: var(--space-3) var(--space-3);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: background var(--transition-fast);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--color-bg-alt); }
+    .search-result-title {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 2px;
+    }
+    .search-result-title strong { color: var(--color-primary); }
+    .search-result-desc {
+      display: block;
+      font-size: var(--text-xs);
+      color: var(--color-text-lighter);
+      line-height: 1.4;
+    }
+    .search-result-desc strong { color: var(--color-primary); }
+    .search-result-empty {
+      padding: var(--space-6);
+      text-align: center;
+      color: var(--color-text-lighter);
+      font-size: var(--text-sm);
+    }
+
+    /* === INSTAGRAM GALLERY === */
+    .insta-section {
+      padding: var(--space-20) 0;
+      background: var(--color-bg);
+    }
+    .insta-header {
+      text-align: center;
+      margin-bottom: var(--space-10);
+    }
+    .insta-header .insta-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-5);
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform var(--transition-fast);
+      margin-top: var(--space-4);
+    }
+    .insta-header .insta-handle:hover { transform: scale(1.05); }
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .insta-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--color-bg-alt);
+    }
+    .insta-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .insta-item:hover img { transform: scale(1.1); }
+    .insta-item .insta-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .insta-item:hover .insta-overlay { opacity: 1; }
+    .insta-item .insta-overlay i {
+      color: white;
+      font-size: 2rem;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+    .insta-item:hover .insta-overlay i { transform: scale(1); }
+    .insta-item .insta-border {
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      pointer-events: none;
+      transition: border-color 0.3s ease;
+    }
+    .insta-item:hover .insta-border { border-color: rgba(255,255,255,0.3); }
+
+    /* === FOOTER INSTAGRAM STRIP === */
+    .footer-insta-strip {
+      background: var(--color-bg-alt);
+      border-top: 1px solid var(--color-border);
+      padding: var(--space-8) 0 var(--space-6);
+      text-align: center;
+    }
+    .footer-insta-strip .insta-strip-label {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-lighter);
+      margin-bottom: var(--space-4);
+    }
+    .footer-insta-strip .insta-strip-label i { color: var(--color-primary); }
+    .footer-insta-thumbs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+    .footer-insta-thumbs a {
+      display: block;
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .footer-insta-thumbs a:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .footer-insta-thumbs a img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .footer-insta-thumbs a .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .footer-insta-thumbs a:hover .thumb-overlay { opacity: 1; }
+    .footer-insta-thumbs a .thumb-overlay i {
+      color: white;
+      font-size: 0.8rem;
+    }
+    .footer-insta-strip .insta-strip-follow {
+      display: inline-block;
+      margin-top: var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--transition-fast);
+    }
+    .footer-insta-strip .insta-strip-follow:hover { color: var(--color-accent); }
+
+    /* === BACK TO TOP ENHANCED === */
+    .back-to-top {
+      background: var(--color-primary) !important;
+      box-shadow: 0 4px 16px rgba(184,134,11,0.3) !important;
+    }
+    .back-to-top:hover {
+      transform: translateY(-2px) scale(1.05) !important;
+      box-shadow: 0 6px 24px rgba(184,134,11,0.4) !important;
+    }
+
+    /* === TOAST ENHANCED === */
+    .toast {
+      background: var(--color-accent) !important;
+      box-shadow: 0 4px 20px rgba(45,90,39,0.3) !important;
+    }
+
+    /* === ENHANCED PRODUCT CARD EFFECTS === */
+    .produit-card {
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+    .produit-card:hover {
+      transform: translateY(-8px) scale(1.02) !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12) !important;
+    }
+    .produit-card .produit-img i {
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+    .produit-card:hover .produit-img i {
+      transform: scale(1.2) !important;
+    }
+    .btn-add-cart {
+      transition: all 0.3s ease !important;
+    }
+    .btn-add-cart:active {
+      transform: scale(0.95) !important;
+    }
+    @keyframes badgePop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      .insta-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+      .search-dropdown { width: 300px; right: -60px; }
+      .hero { background-attachment: scroll !important; }
+    }
+  </style>
 </head>
 <body>
   <!-- NAVIGATION -->
@@ -29,6 +336,15 @@
         <li><a href="histoire.html">Notre Histoire</a></li>
         <li><a href="temoignages.html">Témoignages</a></li>
         <li><a href="monique.html">Monique</a></li>
+        <li class="nav-search-item">
+          <button class="nav-search-btn" id="searchToggle" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+          <div class="search-dropdown" id="searchDropdown">
+            <div class="search-dropdown-inner">
+              <input type="text" id="globalSearch" placeholder="Rechercher dans le site..." autocomplete="off">
+              <div class="search-results" id="searchResults"></div>
+            </div>
+          </div>
+        </li>
         <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
       </ul>
     </div>
@@ -238,13 +554,57 @@
     </div>
   </section>
 
+  <!-- INSTAGRAM GALLERY -->
+  <section class="insta-section">
+    <div class="container">
+      <div class="insta-header fade-in">
+        <div class="section-tag">✦ Suivez-nous sur Instagram</div>
+        <h2 class="section-title">@vertusancestrales</h2>
+        <p class="section-desc">Plongez dans notre univers chaque jour : rituels, coulisses, nouveaux produits et inspirations.</p>
+        <a href="#" class="insta-handle" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Suivre @vertusancestrales</a>
+      </div>
+      <div class="insta-grid">
+        <div class="insta-item fade-in">
+          <img src="images/insta-1.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+        <div class="insta-item fade-in">
+          <img src="images/insta-2.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+        <div class="insta-item fade-in">
+          <img src="images/insta-3.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+        <div class="insta-item fade-in">
+          <img src="images/insta-4.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+        <div class="insta-item fade-in">
+          <img src="images/insta-5.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+        <div class="insta-item fade-in">
+          <img src="images/insta-6.jpg" alt="Instagram Vertus Ancestrales" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+          <div class="insta-border"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- MONIQUE PREVIEW -->
   <section class="section monique-preview" style="background: var(--bg-alt);">
     <div class="container">
       <div class="monique-content">
         <div class="monique-photo">
           <div class="photo-frame">
-            <i class="fas fa-user-circle" style="font-size:8rem;color:var(--primary);opacity:0.6;"></i>
+            <img src="images/monique-portrait.jpg" alt="Monique Morgat" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" loading="lazy">
           </div>
         </div>
         <div class="monique-text">
@@ -271,6 +631,22 @@
       </div>
     </div>
   </section>
+
+  <!-- FOOTER INSTAGRAM STRIP -->
+  <div class="footer-insta-strip">
+    <div class="container">
+      <div class="insta-strip-label"><i class="fab fa-instagram"></i> Retrouvez-nous sur Instagram</div>
+      <div class="footer-insta-thumbs">
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-1.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-2.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-3.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-4.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-5.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+        <a href="#" target="_blank" rel="noopener"><img src="images/insta-6.jpg" alt="Instagram" loading="lazy"><span class="thumb-overlay"><i class="fab fa-instagram"></i></span></a>
+      </div>
+      <a href="#" class="insta-strip-follow" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Suivez @vertusancestrales</a>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">

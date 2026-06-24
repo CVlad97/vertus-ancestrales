@@ -1,5 +1,28 @@
 // VERTUS ANCESTRALES — Main JavaScript
 
+// === SEARCH DATASET ===
+const SEARCH_DATA = [
+  { title: 'Accueil — Vertus Ancestrales', url: 'index.html', desc: 'Cosmétiques naturels faits mains en Martinique. Rituels et bien-être.' },
+  { title: 'Boutique — L\'Élixir de Vénus', url: 'boutique.html', desc: 'Huile de soin régénérante aux huiles essentielles d\'ylang-ylang et de bois de rose.' },
+  { title: 'Boutique — Savon Noir Ancestral', url: 'boutique.html', desc: 'Savon noir purifiant à la cendre de bois de campêche et huile de coco vierge.' },
+  { title: 'Boutique — Baume Spirituel', url: 'boutique.html', desc: 'Baume multi-usages à base de propolis, miel de Martinique et résines naturelles.' },
+  { title: 'Boutique — Eau Florale de Gingembre', url: 'boutique.html', desc: 'Hydrolat tonifiant et stimulant au gingembre frais de Martinique.' },
+  { title: 'Boutique — Bougie Rituelle Vétiver', url: 'boutique.html', desc: 'Bougie coulée à la main en cire de soja, parfumée au vétiver.' },
+  { title: 'Boutique — Huile de Massage Ylang-Ylang', url: 'boutique.html', desc: 'Huile de massage onctueuse aux fleurs d\'ylang-ylang de Nosy Be.' },
+  { title: 'Consultations — Monique Morgat', url: 'consultations.html', desc: 'Consultations personnalisées : générale ou médiumnique. Réservez votre séance.' },
+  { title: 'Consultation Générale', url: 'consultations.html', desc: 'Échange approfondi de 45 min pour faire le point sur votre situation.' },
+  { title: 'Consultation Médiumnique', url: 'consultations.html', desc: 'Connexion aux plans subtils pour éclaircir vos questionnements profonds.' },
+  { title: 'Blog — Les 7 Rituels de Pleine Lune', url: 'blog.html', desc: 'Pratiques ancestrales pour harmoniser votre être lors des nuits de pleine lune.' },
+  { title: 'Blog — Huiles Végétales', url: 'blog.html', desc: 'Comment intégrer les huiles naturelles dans vos soins de peau.' },
+  { title: 'Blog — Signes de l\'Univers', url: 'blog.html', desc: 'Apprenez à décoder les synchronicités et les messages du cosmos.' },
+  { title: 'Blog — Savon Noir Ancestral', url: 'blog.html', desc: 'Histoire et bienfaits de ce soin purifiant transmis en Martinique.' },
+  { title: 'Blog — Créer son Autel Personnel', url: 'blog.html', desc: 'Guide pour débutants pour créer un espace sacré chez soi.' },
+  { title: 'Blog — Respiration Consciente', url: 'blog.html', desc: 'Techniques ancestrales de respiration pour apaiser le mental.' },
+  { title: 'Notre Histoire', url: 'histoire.html', desc: 'L\'histoire de Vertus Ancestrales, née en Martinique.' },
+  { title: 'Monique Morgat', url: 'monique.html', desc: 'Praticienne en médecine douce, consultante générale & médiumnique.' },
+  { title: 'Témoignages', url: 'temoignages.html', desc: 'Ce que nos clients et consultés partagent de leur expérience.' }
+];
+
 // === PRODUCT MANAGEMENT MODULE ===
 const PRODUCT_DEFAULTS = [
   { id:'elixir-venus', nom:"L'Élixir de Vénus", description:"Huile de soin régénérante aux huiles essentielles d'ylang-ylang et de bois de rose. Nourrit, illumine et restaure l'éclat naturel de la peau.", categorie:'huiles', image:'produit-elixir-venus.jpg', badge:'Nouveau', icone:'fa-flask', variantes:[{taille:'50ml',prix:'32€'},{taille:'100ml',prix:'48€'},{taille:'250ml',prix:'72€'}] },
@@ -177,10 +200,81 @@ function deleteProduct(productId) {
   if (typeof showToast === 'function') showToast('✓ Produit supprimé');
 }
 
+// === GLOBAL SEARCH FUNCTION ===
+function initGlobalSearch() {
+  const searchToggle = document.getElementById('searchToggle');
+  const searchDropdown = document.getElementById('searchDropdown');
+  const searchInput = document.getElementById('globalSearch');
+  const searchResults = document.getElementById('searchResults');
+
+  if (!searchToggle || !searchDropdown) return;
+
+  // Toggle search dropdown
+  searchToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    searchDropdown.classList.toggle('open');
+    if (searchDropdown.classList.contains('open')) {
+      setTimeout(() => searchInput?.focus(), 100);
+    }
+  });
+
+  // Close on click outside
+  document.addEventListener('click', function(e) {
+    if (!searchDropdown.contains(e.target) && e.target !== searchToggle && !searchToggle.contains(e.target)) {
+      searchDropdown.classList.remove('open');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchDropdown.classList.remove('open');
+    }
+  });
+
+  if (!searchInput || !searchResults) return;
+
+  // Search logic
+  searchInput.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    if (q.length < 2) {
+      searchResults.innerHTML = '';
+      searchResults.style.display = 'none';
+      return;
+    }
+
+    const results = SEARCH_DATA.filter(item =>
+      item.title.toLowerCase().includes(q) ||
+      item.desc.toLowerCase().includes(q)
+    ).slice(0, 8);
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="search-result-empty">Aucun résultat trouvé</div>';
+    } else {
+      searchResults.innerHTML = results.map(r =>
+        `<a href="${r.url}" class="search-result-item">
+          <span class="search-result-title">${highlightMatch(r.title, q)}</span>
+          <span class="search-result-desc">${highlightMatch(r.desc, q)}</span>
+        </a>`
+      ).join('');
+    }
+    searchResults.style.display = 'block';
+  });
+}
+
+function highlightMatch(text, query) {
+  const idx = text.toLowerCase().indexOf(query);
+  if (idx === -1) return text;
+  return text.slice(0, idx) + '<strong>' + text.slice(idx, idx + query.length) + '</strong>' + text.slice(idx + query.length);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // === RENDER PRODUCTS FROM LOCALSTORAGE (boutique.html) ===
   renderProductsFromData();
+
+  // === INIT GLOBAL SEARCH ===
+  initGlobalSearch();
 
   // === NAVBAR SCROLL EFFECT ===
   const navbar = document.getElementById('navbar');
@@ -221,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === FADE-IN ON SCROLL (with re-init support) ===
+  // === FADE-IN ON SCROLL (enhanced with scale + slide) ===
   function initFadeIn() {
     const fadeElements = document.querySelectorAll('.fade-in');
     if (fadeElements.length === 0) return;
@@ -232,14 +326,14 @@ document.addEventListener('DOMContentLoaded', () => {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     fadeElements.forEach(el => observer.observe(el));
   }
   initFadeIn();
 
   // === STAGGER CARDS (dynamic) ===
   function initStagger() {
-    document.querySelectorAll('.produits-grid, .blog-grid, .valeurs-grid, .temoignages-strip').forEach(grid => {
+    document.querySelectorAll('.produits-grid, .blog-grid, .valeurs-grid, .temoignages-strip, .insta-grid').forEach(grid => {
       grid.querySelectorAll('.fade-in').forEach((card, i) => {
         card.style.transitionDelay = `${i * 0.1}s`;
       });
@@ -257,16 +351,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // === CART BUTTONS (event delegation) ===
+  // === CART BUTTONS (enhanced with "Ajouté ✓" animation) ===
   document.addEventListener('click', function(e) {
     const btn = e.target.closest('.btn-add-cart');
     if (btn) {
       e.preventDefault();
+
+      // Visual feedback: "Ajouté ✓" animation
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté ✓';
+      btn.style.background = '#2d5a27';
+      btn.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+        btn.style.transform = '';
+      }, 1500);
+
       cartCount++;
       localStorage.setItem('vaCartCount', cartCount);
       if (cartBadge) {
         cartBadge.textContent = cartCount;
         cartBadge.style.display = 'flex';
+        cartBadge.style.animation = 'badgePop 0.3s ease';
+        setTimeout(() => { if (cartBadge) cartBadge.style.animation = ''; }, 300);
       }
       const name = btn.closest('.produit-info')?.querySelector('h3')?.textContent || 'Produit';
       showToast(`✓ ${name} ajouté au panier`);
