@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monique Morgat — Vertus Ancestrales</title>
+  <meta name="description" content="Rencontrez Monique Morgat, fondatrice de Vertus Ancestrales : sophrologue, réflexologue, consultante médiumnique et créatrice de cosmétiques naturels.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      padding: var(--space-32) 0 var(--space-16);
+      background: linear-gradient(135deg, #1a0f0a 0%, #2c1810 50%, #1a0f0a 100%);
+      position: relative;
+      overflow: hidden;
+      color: var(--color-white);
+    }
+    .page-hero h1, .page-hero .section-title { color: var(--color-white); }
+    .page-hero .section-desc { color: rgba(255,255,255,0.75); }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 70% 30%, rgba(184,134,11,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      padding: var(--space-1) var(--space-4);
+      border: 1px solid rgba(184,134,11,0.35);
+      border-radius: var(--radius-full);
+      background: rgba(184,134,11,0.1);
+    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+
+    /* Photo placeholder */
+    .monique-intro {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-12);
+      align-items: center;
+      margin-top: var(--space-8);
+    }
+    @media (max-width: 768px) {
+      .monique-intro { grid-template-columns: 1fr; }
+    }
+    .monique-photo-large {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, #e8d5b7 0%, #d4a373 40%, #b8860b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+    }
+    .monique-photo-large i {
+      font-size: 6rem;
+      color: rgba(139,105,20,0.3);
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.1));
+    }
+    .monique-photo-large::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(184,134,11,0.15);
+      border-radius: var(--radius-xl);
+    }
+    .monique-intro-text h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: var(--space-3);
+    }
+    .monique-intro-text .monique-role {
+      font-size: var(--text-lg);
+      color: var(--color-primary);
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+    .monique-intro-text p {
+      font-size: var(--text-base);
+      line-height: 1.8;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-4);
+    }
+    .monique-intro-text .intro-highlight {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    /* Bio */
+    .bio-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .bio-section p {
+      font-size: var(--text-base);
+      line-height: 1.8;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-5);
+    }
+    .bio-section .pullquote {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      line-height: 1.4;
+      color: var(--color-primary);
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
+      margin: var(--space-8) 0;
+      border-top: 2px solid rgba(184,134,11,0.15);
+      border-bottom: 2px solid rgba(184,134,11,0.15);
+      font-style: italic;
+    }
+
+    /* Certifications */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-10);
+    }
+    .cert-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      transition: transform var(--transition-base);
+    }
+    .cert-card:hover { transform: translateY(-4px); }
+    .cert-card .cert-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-4);
+      font-size: 1.25rem;
+      color: var(--color-primary);
+    }
+    .cert-card h4 {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      margin-bottom: var(--space-2);
+    }
+    .cert-card p {
+      font-size: var(--text-xs);
+      color: var(--color-text-light);
+      line-height: 1.5;
+    }
+
+    /* Specialties */
+    .specialties-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      margin-top: var(--space-10);
+    }
+    @media (max-width: 768px) {
+      .specialties-list { grid-template-columns: 1fr; }
+    }
+    .specialty-item {
+      display: flex;
+      gap: var(--space-5);
+      padding: var(--space-6);
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      border: 1px solid var(--color-border);
+      transition: box-shadow var(--transition-base);
+    }
+    .specialty-item:hover { box-shadow: var(--shadow-md); }
+    .specialty-item .spec-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(45,90,39,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--color-accent);
+    }
+    .specialty-item h4 {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      margin-bottom: var(--space-1);
+    }
+    .specialty-item p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta-block {
+      text-align: center;
+      padding: var(--space-16) 0;
+      background: linear-gradient(135deg, var(--color-bg-alt), #f0e6d6);
+      border-radius: var(--radius-xl);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Vertus Ancestrales</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="consultations.html">Consultations</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="histoire.html">Notre Histoire</a></li>
+        <li><a href="temoignages.html">Témoignages</a></li>
+        <li><a href="monique.html" class="active">Monique</a></li>
+        <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO / INTRO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="hero-badge">✦ Rencontrez</div>
+      <div class="monique-intro">
+        <div class="monique-photo-large fade-in">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="monique-intro-text fade-in">
+          <h1 class="section-title">Monique Morgat</h1>
+          <p class="monique-role">Praticienne en médecine douce — Consultante générale &amp; médiumnique</p>
+          <p><span class="intro-highlight">Fondatrice de Vertus Ancestrales, Monique est bien plus qu'une artisane de cosmétiques.</span> Elle est une passeuse de savoirs, une oreille attentive et une guide sur le chemin de l'harmonie intérieure.</p>
+          <p>Sophrologue certifiée, réflexologue et consultante médiumnique, elle accompagne chaque personne avec une bienveillance et une profondeur rares.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIOGRAPHIE -->
+  <section class="section">
+    <div class="container bio-section">
+      <div class="section-tag" style="text-align:center;display:block;width:fit-content;margin:0 auto var(--space-4);">✦ Son Parcours</div>
+      <h2 class="section-title" style="text-align:center;">Un chemin de cœur et de transmission</h2>
+
+      <p>Monique Morgat est née et a grandi en Martinique, bercée par les parfums envoûtants de la forêt tropicale et les récits de sa grand-mère, guérisseuse respectée dans la communauté. C'est dans ce terreau fertile — à la fois terrestre et spirituel — qu'a germé sa vocation.</p>
+
+      <p>Dès son plus jeune âge, Monique a appris à reconnaître les plantes médicinales, à préparer des baumes et des décoctions, et à comprendre le langage subtil du corps et de l'énergie. Cette éducation informelle mais profondément ancrée dans la tradition a éveillé en elle une sensibilité qu'elle a cultivée tout au long de sa vie.</p>
+
+      <div class="pullquote">« Chaque plante a une histoire à raconter, chaque être a une lumière à révéler. Mon rôle est simplement d'être un pont entre les deux. »</div>
+
+      <p>Après des études en psychologie et en sciences humaines, Monique a entrepris une formation rigoureuse en sophrologie, en réflexologie et en médecine douce. Parallèlement, elle a approfondi ses connaissances en herboristerie et en cosmétique naturelle auprès de maîtres-artisans en France et aux Antilles.</p>
+
+      <p>En 2018, elle crée Vertus Ancestrales, réunissant ainsi ses deux passions : les soins naturels pour le corps et l'accompagnement des personnes. Aujourd'hui, elle partage son temps entre la création de ses produits artisanaux, les consultations personnalisées et la transmission de ses savoirs à travers son blog et ses ateliers.</p>
+
+      <p>Ce qui distingue Monique, c'est sa capacité à allier une approche ancestrale avec une compréhension moderne des besoins de chacun. Que ce soit à travers un flacon d'élixir ou une consultation médiumnique, elle offre à chaque personne les clés pour renouer avec sa propre essence.</p>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-tag" style="text-align:center;display:block;width:fit-content;margin:0 auto var(--space-4);">✦ Certifications</div>
+      <h2 class="section-title" style="text-align:center;">Formations & Diplômes</h2>
+      <div class="certs-grid">
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-brain"></i></div>
+          <h4>Sophrologie</h4>
+          <p>Certifiée en sophrologie caycédienne — Institut de Sophrologie de Martinique (2016)</p>
+        </div>
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-hands"></i></div>
+          <h4>Réflexologie</h4>
+          <p>Diplômée en réflexologie plantaire et palmaire — École de Médecine Douce des Antilles (2017)</p>
+        </div>
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-feather-alt"></i></div>
+          <h4>Thérapies Énergétiques</h4>
+          <p>Formation en magnétisme et soins énergétiques — Centre de Formation Holistique Caraïbes (2018)</p>
+        </div>
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-seedling"></i></div>
+          <h4>Herboristerie</h4>
+          <p>Certificat d'herboristerie traditionnelle — École des Plantes de Provence (2015)</p>
+        </div>
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-mortar-pestle"></i></div>
+          <h4>Cosmétique Naturelle</h4>
+          <p>Diplôme en formulation cosmétique naturelle et bio — Institut de Cosmétique Naturelle (2017)</p>
+        </div>
+        <div class="cert-card fade-in">
+          <div class="cert-icon"><i class="fas fa-star"></i></div>
+          <h4>Médiumnité</h4>
+          <p>Développement médiumnique et guidance spirituelle — Académie des Sens Subtils (2019)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPÉCIALITÉS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-tag" style="text-align:center;display:block;width:fit-content;margin:0 auto var(--space-4);">✦ Domaines d'expertise</div>
+      <h2 class="section-title" style="text-align:center;">Ses Spécialités</h2>
+      <div class="specialties-list">
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-comments"></i></div>
+          <div>
+            <h4>Accompagnement holistique</h4>
+            <p>Monique vous reçoit dans un cadre bienveillant pour une écoute globale de vos besoins — émotionnels, physiques et spirituels — et vous guide vers un équilibre durable.</p>
+          </div>
+        </div>
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-eye"></i></div>
+          <div>
+            <h4>Guidance médiumnique</h4>
+            <p>Grâce à sa sensibilité développée, Monique capte les messages subtils et vous aide à éclairer vos questionnements profonds avec une grande douceur et précision.</p>
+          </div>
+        </div>
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-spa"></i></div>
+          <div>
+            <h4>Sophrologie & relaxation</h4>
+            <p>Des séances adaptées pour libérer les tensions, retrouver un sommeil réparateur et cultiver un état d'esprit serein face aux défis du quotidien.</p>
+          </div>
+        </div>
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-leaf"></i></div>
+          <div>
+            <h4>Conseils en phytothérapie</h4>
+            <p>Monique vous oriente vers les plantes et les huiles essentielles adaptées à vos besoins spécifiques, en respectant les traditions et la science moderne.</p>
+          </div>
+        </div>
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-hand-sparkles"></i></div>
+          <div>
+            <h4>Réflexologie plantaire</h4>
+            <p>Une technique de pression sur des zones réflexes du pied pour stimuler les capacités d'autorégulation du corps et rétablir l'harmonie énergétique.</p>
+          </div>
+        </div>
+        <div class="specialty-item fade-in">
+          <div class="spec-icon"><i class="fas fa-feather"></i></div>
+          <div>
+            <h4>Rituels & cérémonies</h4>
+            <p>Création de rituels personnalisés pour les grandes étapes de la vie : purification, passage, intention, gratitude — pour se reconnecter à l'essentiel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="cta-block fade-in">
+        <div class="section-tag" style="display:inline-block;margin-bottom:var(--space-4);">✦ Prenez Rendez-Vous</div>
+        <h2 class="section-title" style="margin-bottom:var(--space-4);">Prêt(e) à faire le premier pas ?</h2>
+        <p style="max-width:560px;margin:0 auto var(--space-8);color:var(--color-text-light);">
+          Monique vous reçoit en consultation individuelle par visio ou téléphone. Offrez-vous cet espace de parole et de ressourcement.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:center;">
+          <a href="consultations.html#reservation" class="btn btn-primary">Réserver une consultation <i class="fas fa-calendar-check"></i></a>
+          <a href="consultations.html" class="btn btn-outline">En savoir plus <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">✦ Vertus Ancestrales</span>
+        <p>Sagesse ancestrale, beauté moderne. Cosmétiques naturels faits mains en Martinique.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorer</h4>
+        <a href="boutique.html">Boutique</a>
+        <a href="consultations.html">Consultations</a>
+        <a href="blog.html">Blog</a>
+        <a href="histoire.html">Notre Histoire</a>
+        <a href="temoignages.html">Témoignages</a>
+      </div>
+      <div class="footer-links">
+        <h4>Informations</h4>
+        <a href="#">Livraison & Retours</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Mentions Légales</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> contact@vertusancestrales.com</p>
+        <p><i class="fas fa-phone"></i> +596 696 XX XX XX</p>
+        <p><i class="fas fa-map-marker-alt"></i> Martinique</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vertus Ancestrales. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

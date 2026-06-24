@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — Vertus Ancestrales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ADMIN LAYOUT -->
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">VA Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="#dashboard" class="admin-nav-item active"><i class="fas fa-th-large"></i> <span>Tableau de Bord</span></a>
+        <a href="#products" class="admin-nav-item"><i class="fas fa-box"></i> <span>Produits</span></a>
+        <a href="#orders" class="admin-nav-item"><i class="fas fa-shopping-cart"></i> <span>Commandes</span></a>
+        <a href="#consultations" class="admin-nav-item"><i class="fas fa-calendar-check"></i> <span>Consultations</span></a>
+        <a href="#blog" class="admin-nav-item"><i class="fas fa-newspaper"></i> <span>Blog</span></a>
+        <a href="#testimonials" class="admin-nav-item"><i class="fas fa-star"></i> <span>Témoignages</span></a>
+        <a href="#users" class="admin-nav-item"><i class="fas fa-users"></i> <span>Utilisateurs</span></a>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-nav-item"><i class="fas fa-arrow-left"></i> <span>Retour au site</span></a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Top Bar -->
+      <header class="admin-header">
+        <button id="admin-sidebar-toggle" class="admin-toggle"><i class="fas fa-bars"></i></button>
+        <h2>Tableau de Bord</h2>
+        <div class="admin-header-right">
+          <span class="admin-user"><i class="fas fa-user-circle"></i> Johann Bolnet</span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="admin-content">
+        <!-- Stats -->
+        <div class="admin-stats">
+          <div class="admin-stat-card">
+            <div class="stat-icon" style="background:#e8d5b7;"><i class="fas fa-euro-sign" style="color:#8b6914;"></i></div>
+            <div class="stat-info">
+              <span class="stat-value">3 842 €</span>
+              <span class="stat-label">Revenus du mois</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon" style="background:#d4e8c9;"><i class="fas fa-shopping-bag" style="color:#2d5a27;"></i></div>
+            <div class="stat-info">
+              <span class="stat-value">47</span>
+              <span class="stat-label">Commandes</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon" style="background:#f0e4d4;"><i class="fas fa-calendar-check" style="color:#b8860b;"></i></div>
+            <div class="stat-info">
+              <span class="stat-value">12</span>
+              <span class="stat-label">Consultations</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon" style="background:#e0d4e8;"><i class="fas fa-users" style="color:#7b5ea7;"></i></div>
+            <div class="stat-info">
+              <span class="stat-value">89</span>
+              <span class="stat-label">Clients inscrits</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3>Dernières Commandes</h3>
+            <a href="#orders" class="btn btn-sm btn-outline">Voir tout</a>
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Commande</th>
+                  <th>Client</th>
+                  <th>Date</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#VA-0042</td>
+                  <td>Marie S.</td>
+                  <td>22 Juin 2026</td>
+                  <td>72 €</td>
+                  <td><span class="status-badge paid">Payée</span></td>
+                </tr>
+                <tr>
+                  <td>#VA-0041</td>
+                  <td>Alexandre M.</td>
+                  <td>21 Juin 2026</td>
+                  <td>48 €</td>
+                  <td><span class="status-badge shipped">Expédiée</span></td>
+                </tr>
+                <tr>
+                  <td>#VA-0040</td>
+                  <td>Caroline D.</td>
+                  <td>20 Juin 2026</td>
+                  <td>90 €</td>
+                  <td><span class="status-badge delivered">Livrée</span></td>
+                </tr>
+                <tr>
+                  <td>#VA-0039</td>
+                  <td>Sophie L.</td>
+                  <td>19 Juin 2026</td>
+                  <td>38 €</td>
+                  <td><span class="status-badge pending">En attente</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Upcoming Consultations -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3>Consultations à Venir</h3>
+            <a href="#consultations" class="btn btn-sm btn-outline">Voir tout</a>
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client</th>
+                  <th>Type</th>
+                  <th>Durée</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>24 Juin 14:00</td>
+                  <td>Élodie R.</td>
+                  <td>Médiumnique</td>
+                  <td>1h</td>
+                  <td><span class="status-badge pending">Confirmé</span></td>
+                </tr>
+                <tr>
+                  <td>25 Juin 10:30</td>
+                  <td>Patricia M.</td>
+                  <td>Générale</td>
+                  <td>45min</td>
+                  <td><span class="status-badge paid">En attente</span></td>
+                </tr>
+                <tr>
+                  <td>27 Juin 16:00</td>
+                  <td>Nathalie K.</td>
+                  <td>Médiumnique</td>
+                  <td>1h</td>
+                  <td><span class="status-badge paid">Confirmé</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Product Management Quick Card -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3>Gestion Rapide des Produits</h3>
+          </div>
+          <div style="padding:1rem;">
+            <form class="admin-form" onsubmit="event.preventDefault(); showToast('✓ Produit ajouté');">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Nom du produit</label>
+                  <input type="text" class="input" placeholder="Ex: L'Élixir de Vénus" required>
+                </div>
+                <div class="form-group">
+                  <label>Catégorie</label>
+                  <select class="select">
+                    <option>Huiles & Élixirs</option>
+                    <option>Soins Corps</option>
+                    <option>Accessoires Rituels</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea class="textarea" rows="3" placeholder="Description du produit..."></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Prix de base (€)</label>
+                  <input type="number" class="input" step="0.01" placeholder="32.00">
+                </div>
+                <div class="form-group">
+                  <label>Stock</label>
+                  <input type="number" class="input" placeholder="50">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Images</label>
+                <div class="upload-zone">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Glissez vos images ici ou cliquez pour parcourir</p>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Ajouter le Produit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

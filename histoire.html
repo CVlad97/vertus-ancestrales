@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notre Histoire — Vertus Ancestrales</title>
+  <meta name="description" content="Découvrez l'histoire de Vertus Ancestrales : une marque de cosmétiques naturels née en Martinique, portée par la transmission des savoirs ancestraux.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      padding: var(--space-32) 0 var(--space-16);
+      background: linear-gradient(135deg, #1a0f0a 0%, #2c1810 50%, #1a0f0a 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      color: var(--color-white);
+    }
+    .page-hero h1, .page-hero .section-title { color: var(--color-white); }
+    .page-hero .section-desc { color: rgba(255,255,255,0.75); }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(184,134,11,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      padding: var(--space-1) var(--space-4);
+      border: 1px solid rgba(184,134,11,0.35);
+      border-radius: var(--radius-full);
+      background: rgba(184,134,11,0.1);
+    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+    .page-hero .section-desc { max-width: 680px; margin: 0 auto; }
+
+    /* Timeline */
+    .timeline-section { position: relative; overflow: hidden; }
+    .timeline-section::before {
+      content: '✦';
+      position: absolute;
+      top: -80px;
+      right: -40px;
+      font-size: 12rem;
+      color: var(--color-primary);
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: var(--space-16) auto 0;
+      padding: var(--space-4) 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+      opacity: 0.3;
+    }
+    .timeline-item {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-12);
+      padding-left: 0;
+      position: relative;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-white);
+      border: 2px solid var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      z-index: 2;
+      box-shadow: 0 0 0 4px var(--color-bg), 0 2px 12px rgba(184,134,11,0.15);
+    }
+    .timeline-content {
+      flex: 1;
+      padding-top: var(--space-2);
+    }
+    .timeline-content .timeline-date {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+      padding: var(--space-1) var(--space-3);
+      background: rgba(184,134,11,0.08);
+      border-radius: var(--radius-full);
+    }
+    .timeline-content h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-2);
+    }
+    .timeline-content p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      line-height: 1.7;
+    }
+
+    /* Mission / Values / Philosophy */
+    .mvp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+    @media (max-width: 768px) {
+      .mvp-grid { grid-template-columns: 1fr; }
+    }
+    .mvp-card {
+      text-align: center;
+      padding: var(--space-10);
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+    .mvp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .mvp-card .mvp-icon {
+      width: 72px; height: 72px;
+      margin: 0 auto var(--space-6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+    }
+    .mvp-card .mvp-icon.mission { background: rgba(184,134,11,0.1); color: var(--color-primary); }
+    .mvp-card .mvp-icon.values { background: rgba(45,90,39,0.1); color: var(--color-accent); }
+    .mvp-card .mvp-icon.philosophy { background: rgba(107,90,74,0.1); color: var(--color-text-light); }
+    .mvp-card h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-4);
+    }
+    .mvp-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      line-height: 1.7;
+    }
+
+    /* Decorative elements */
+    .deco-section {
+      position: relative;
+    }
+    .deco-section::after {
+      content: '✦ ✦ ✦';
+      display: block;
+      text-align: center;
+      color: var(--color-primary);
+      opacity: 0.15;
+      font-size: 1.2rem;
+      letter-spacing: 1.5rem;
+      margin-top: var(--space-8);
+    }
+    .deco-top {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 6rem;
+      color: var(--color-primary);
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    /* Story text */
+    .story-text {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: var(--text-lg);
+      line-height: 1.8;
+      color: var(--color-text);
+    }
+    .story-text .highlight {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    .story-text .signature {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      color: var(--color-primary);
+      margin-top: var(--space-8);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Vertus Ancestrales</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="consultations.html">Consultations</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="histoire.html" class="active">Notre Histoire</a></li>
+        <li><a href="temoignages.html">Témoignages</a></li>
+        <li><a href="monique.html">Monique</a></li>
+        <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="hero-badge">✦ Notre Histoire</div>
+      <h1 class="section-title">Vertus Ancestrales</h1>
+      <p class="section-desc">L'histoire d'une rencontre entre la sagesse des anciens et la beauté d'aujourd'hui. Un voyage au cœur de la Martinique, de ses plantes et de ses traditions.</p>
+    </div>
+  </section>
+
+  <!-- INTRODUCTION -->
+  <section class="section deco-section" style="position:relative;">
+    <div class="deco-top">✦</div>
+    <div class="container">
+      <div class="story-text">
+        <p>Vertus Ancestrales naît d'une conviction profonde : <span class="highlight">la nature détient tous les secrets d'une beauté authentique</span>. Nichée au cœur de la Martinique, notre marque puise dans les savoirs transmis par les générations de femmes et d'hommes qui, depuis des siècles, cultivent, récoltent et transforment les plantes de cette terre généreuse.</p>
+        <p>Notre fondatrice, <span class="highlight">Monique Morgat</span>, a grandi bercée par les récits de sa grand-mère, guérisseuse et herboriste respectée dans son village. C'est auprès d'elle qu'elle a appris à reconnaître les plantes, à préparer les baumes et à écouter les voix subtiles de la nature.</p>
+        <p>De cette enfance imprégnée de senteurs de vétiver et de fleurs d'ylang-ylang est née l'envie de <span class="highlight">partager ces trésors avec le monde</span>. En 2018, après des années de formation en herboristerie et en cosmétique naturelle, Monique concrétise son rêve : créer une ligne de soins qui honore la terre et les traditions.</p>
+        <p>Aujourd'hui, Vertus Ancestrales est bien plus qu'une marque de cosmétiques. C'est une invitation à renouer avec l'essentiel, à ralentir et à prendre soin de soi avec des produits qui ont du sens.</p>
+        <div class="signature">— Monique Morgat</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section timeline-section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-tag">✦ Notre Parcours</div>
+      <h2 class="section-title">Les Dates Clés</h2>
+      <div class="timeline">
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"><i class="fas fa-seedling"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2015 — Les Premières Graines</span>
+            <h3>La formation & la vision</h3>
+            <p>Monique entame une formation approfondie en herboristerie traditionnelle et cosmétique naturelle auprès de maîtres-herboristes en Martinique et en France. Elle pose les fondations de ce qui deviendra Vertus Ancestrales.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"><i class="fas fa-leaf"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2018 — La Naissance</span>
+            <h3>Création de la marque</h3>
+            <p>Vertus Ancestrales voit le jour avec une première collection de trois huiles de soin, élaborées dans la cuisine de Monique. Les premiers tests sont faits auprès de sa famille et de ses amis. Les retours sont unanimes.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"><i class="fas fa-store"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2020 — L'Essor</span>
+            <h3>Ouverture de la boutique en ligne</h3>
+            <p>Face à la demande croissante, Monique lance la boutique en ligne et élargit sa gamme à une dizaine de produits : savons, baumes, eaux florales et bougies rituelles. La marque séduit bien au-delà de la Martinique.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"><i class="fas fa-hands"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2022 — L'Atelier & les Consultations</span>
+            <h3>Expansion et accompagnement</h3>
+            <p>Un atelier dédié est aménagé à Fort-de-France, permettant une production plus importante tout en conservant le caractère artisanal. Monique commence également à proposer ses consultations personnalisées, alliant médecine douce et guidance médiumnique.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"><i class="fas fa-globe"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2026 — Aujourd'hui</span>
+            <h3>Rayonnement international</h3>
+            <p>Vertus Ancestrales livre désormais dans le monde entier. La marque collabore avec des producteurs locaux et des artisans respectueux de l'environnement, tout en restant fidèle à ses valeurs : naturel, fait main et transmission des savoirs.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION / VALEURS / PHILOSOPHIE -->
+  <section class="section deco-section">
+    <div class="container">
+      <div class="section-tag">✦ Notre ADN</div>
+      <h2 class="section-title">Mission, Valeurs & Philosophie</h2>
+      <div class="mvp-grid" style="margin-top: var(--space-12);">
+
+        <div class="mvp-card fade-in">
+          <div class="mvp-icon mission"><i class="fas fa-bullseye"></i></div>
+          <h3>Notre Mission</h3>
+          <p>Rendre accessibles des soins naturels d'exception, fabriqués artisanalement en Martinique, tout en préservant et en transmettant les savoir-faire ancestraux. Nous œuvrons pour une beauté consciente, respectueuse de l'humain et de la planète.</p>
+        </div>
+
+        <div class="mvp-card fade-in">
+          <div class="mvp-icon values"><i class="fas fa-heart"></i></div>
+          <h3>Nos Valeurs</h3>
+          <p><strong>Authenticité</strong> — Des ingrédients bruts, sans compromis.<br>
+          <strong>Respect</strong> — De la terre, des plantes et des personnes.<br>
+          <strong>Transmission</strong> — Chaque produit porte un savoir ancestral.<br>
+          <strong>Artisanat</strong> — Le geste humain, l'attention du détail.</p>
+        </div>
+
+        <div class="mvp-card fade-in">
+          <div class="mvp-icon philosophy"><i class="fas fa-feather"></i></div>
+          <h3>Notre Philosophie</h3>
+          <p>Nous croyons que la beauté véritable émerge de l'harmonie entre le corps, l'esprit et la nature. Chaque rituel de soin est une invitation à se reconnecter à soi-même et aux cycles naturels. Prendre soin de soi, c'est aussi prendre soin du monde.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA VERS BOUTIQUE -->
+  <section class="section" style="background: var(--bg-alt); text-align:center;">
+    <div class="container">
+      <div class="section-tag">✦ Découvrez</div>
+      <h2 class="section-title">Des produits qui ont une histoire</h2>
+      <p style="max-width:600px;margin:0 auto var(--space-8);color:var(--color-text-light);">
+        Chaque flacon, chaque baume, chaque bougie est le fruit de cette histoire et de ces valeurs. Explorez notre collection et emportez un morceau de la Martinique chez vous.
+      </p>
+      <a href="boutique.html" class="btn btn-primary">Découvrir la Boutique <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">✦ Vertus Ancestrales</span>
+        <p>Sagesse ancestrale, beauté moderne. Cosmétiques naturels faits mains en Martinique.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorer</h4>
+        <a href="boutique.html">Boutique</a>
+        <a href="consultations.html">Consultations</a>
+        <a href="blog.html">Blog</a>
+        <a href="histoire.html">Notre Histoire</a>
+        <a href="temoignages.html">Témoignages</a>
+      </div>
+      <div class="footer-links">
+        <h4>Informations</h4>
+        <a href="#">Livraison & Retours</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Mentions Légales</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> contact@vertusancestrales.com</p>
+        <p><i class="fas fa-phone"></i> +596 696 XX XX XX</p>
+        <p><i class="fas fa-map-marker-alt"></i> Martinique</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vertus Ancestrales. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

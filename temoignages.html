@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Témoignages — Vertus Ancestrales</title>
+  <meta name="description" content="Découvrez les témoignages de nos clients et consultés. Partagez votre expérience avec Vertus Ancestrales.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      padding: var(--space-32) 0 var(--space-16);
+      background: linear-gradient(135deg, var(--color-bg) 0%, #f0e6d6 50%, var(--color-bg) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(184,134,11,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      padding: var(--space-1) var(--space-4);
+      border: 1px solid rgba(184,134,11,0.25);
+      border-radius: var(--radius-full);
+      background: rgba(184,134,11,0.06);
+    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+    .page-hero .section-desc { max-width: 600px; margin: 0 auto; }
+
+    /* Average rating */
+    .average-rating {
+      text-align: center;
+      padding: var(--space-10);
+      margin: var(--space-8) auto;
+      max-width: 450px;
+      background: var(--color-white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+    }
+    .average-rating .big-stars {
+      font-size: 2.5rem;
+      color: var(--color-star);
+      letter-spacing: 4px;
+      margin-bottom: var(--space-3);
+    }
+    .average-rating .avg-score {
+      font-family: var(--font-heading);
+      font-size: var(--text-5xl);
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
+    }
+    .average-rating .avg-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-lighter);
+      margin-top: var(--space-2);
+    }
+    .average-rating .avg-count {
+      font-size: var(--text-xs);
+      color: var(--color-text-lighter);
+      margin-top: var(--space-1);
+    }
+
+    /* Testimonials grid */
+    .temoignages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-10);
+    }
+    .temoignage-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+      position: relative;
+    }
+    .temoignage-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .temoignage-card::before {
+      content: '"';
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-5);
+      font-family: var(--font-heading);
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--color-primary);
+      opacity: 0.1;
+    }
+    .temoignage-card .stars {
+      font-size: 1.1rem;
+      color: var(--color-star);
+      letter-spacing: 2px;
+      margin-bottom: var(--space-4);
+    }
+    .temoignage-card .stars .empty {
+      color: var(--color-star-empty);
+    }
+    .temoignage-card .temoignage-text {
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: var(--color-text);
+      margin-bottom: var(--space-5);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    .temoignage-card .temoignage-author {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .temoignage-card .temoignage-source {
+      font-size: var(--text-xs);
+      color: var(--color-text-lighter);
+      margin-top: var(--space-1);
+    }
+
+    /* Form */
+    .form-section {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-section .form-card {
+      background: var(--color-white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border);
+    }
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+    .form-group label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-white);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      transition: border-color var(--transition-fast);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-note {
+      font-size: var(--text-xs);
+      color: var(--color-text-lighter);
+      text-align: center;
+      margin-top: var(--space-4);
+      padding: var(--space-3);
+      background: rgba(184,134,11,0.04);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--color-border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Vertus Ancestrales</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="consultations.html">Consultations</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="histoire.html">Notre Histoire</a></li>
+        <li><a href="temoignages.html" class="active">Témoignages</a></li>
+        <li><a href="monique.html">Monique</a></li>
+        <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="hero-badge">✦ Ils & Elles Témoignent</div>
+      <h1 class="section-title">Témoignages</h1>
+      <p class="section-desc">Ce que nos clients et nos consultés partagent de leur expérience avec Vertus Ancestrales. Chaque parole est précieuse et nous inspire chaque jour.</p>
+
+      <!-- Average rating -->
+      <div class="average-rating fade-in">
+        <div class="big-stars">★★★★★</div>
+        <div class="avg-score">4.9</div>
+        <div class="avg-label">sur 5 étoiles</div>
+        <div class="avg-count">Basé sur 127 avis vérifiés</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="container">
+      <div class="temoignages-grid">
+
+        <!-- 1 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">L'Élixir de Vénus a transformé ma peau. Je sens la différence dès la première application. Un véritable trésor de la nature, je ne peux plus m'en passer !</p>
+          <div class="temoignage-author">— Marie S.</div>
+          <div class="temoignage-source">Cliente fidèle — Martinique</div>
+        </div>
+
+        <!-- 2 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">La consultation avec Monique a été une révélation. Sa douceur et sa clairvoyance m'ont profondément touchée. Elle a su mettre des mots sur ce que je ressentais sans pouvoir l'exprimer.</p>
+          <div class="temoignage-author">— Caroline D.</div>
+          <div class="temoignage-source">Consultation médiumnique — Paris</div>
+        </div>
+
+        <!-- 3 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">Les articles du blog sont d'une grande richesse. Chaque lecture m'apporte une nouvelle perspective sur mon cheminement spirituel. Merci pour ce travail de transmission.</p>
+          <div class="temoignage-author">— Alexandre M.</div>
+          <div class="temoignage-source">Lecteur du blog — Belgique</div>
+        </div>
+
+        <!-- 4 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">Le Baume Spirituel est devenu mon allié de tous les jours. Petits bobos, peau sèche, irritations... il fait des merveilles. Et l'odeur est tout simplement divine.</p>
+          <div class="temoignage-author">— Sarah L.</div>
+          <div class="temoignage-source">Cliente — Canada</div>
+        </div>
+
+        <!-- 5 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+          <p class="temoignage-text">J'ai offert la Bougie Rituelle Vétiver à une amie qui traverse une période difficile. Elle m'a dit que l'énergie de la bougie l'aidait à se sentir ancrée et apaisée. Merci pour ce cadeau subtil.</p>
+          <div class="temoignage-author">— Élodie T.</div>
+          <div class="temoignage-source">Cliente — Suisse</div>
+        </div>
+
+        <!-- 6 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">Monique est une personne exceptionnelle. Sa consultation générale m'a aidée à y voir plus clair dans ma vie professionnelle. Sa bienveillance et sa pertinence m'ont impressionnée.</p>
+          <div class="temoignage-author">— Nathalie P.</div>
+          <div class="temoignage-source">Consultation générale — Lyon</div>
+        </div>
+
+        <!-- 7 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">Le Savon Noir Ancestral est incroyable ! Ma peau n'a jamais été aussi nette et douce. Je recommande à toutes les peaux à tendance acnéique. Un véritable trésor créole.</p>
+          <div class="temoignage-author">— Julie K.</div>
+          <div class="temoignage-source">Cliente — France</div>
+        </div>
+
+        <!-- 8 -->
+        <div class="temoignage-card fade-in">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="temoignage-text">L'Huile de Massage Ylang-Ylang est un pur bonheur sensoriel. Son parfum enveloppant et sa texture onctueuse en font un rituel de bien-être à part entière. Un must-have.</p>
+          <div class="temoignage-author">— Sophie R.</div>
+          <div class="temoignage-source">Cliente — Guadeloupe</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBMIT TESTIMONIAL -->
+  <section class="section" style="background: var(--bg-alt);">
+    <div class="container form-section">
+      <div class="section-tag" style="text-align:center;display:block;width:fit-content;margin:0 auto var(--space-4);">✦ Partagez votre expérience</div>
+      <h2 class="section-title" style="text-align:center;">Laissez un témoignage</h2>
+      <p style="text-align:center;max-width:500px;margin:0 auto var(--space-8);color:var(--color-text-light);font-size:var(--text-sm);">
+        Votre avis est précieux pour nous et pour toute la communauté Vertus Ancestrales. Prenez un instant pour partager votre ressenti.
+      </p>
+
+      <div class="form-card fade-in">
+        <form onsubmit="event.preventDefault(); alert('Merci pour votre témoignage ! Il sera publié après modération.');">
+          <div class="form-group">
+            <label for="temoignage-nom">Nom ou prénom *</label>
+            <input type="text" id="temoignage-nom" required placeholder="Votre nom (tel qu'il apparaîtra)">
+          </div>
+          <div class="form-group">
+            <label for="temoignage-email">Email *</label>
+            <input type="email" id="temoignage-email" required placeholder="votre@email.com">
+          </div>
+          <div class="form-group">
+            <label for="temoignage-note">Note *</label>
+            <select id="temoignage-note" required>
+              <option value="">— Choisissez une note —</option>
+              <option value="5">★★★★★ Excellent</option>
+              <option value="4">★★★★☆ Très bien</option>
+              <option value="3">★★★☆☆ Bien</option>
+              <option value="2">★★☆☆☆ Moyen</option>
+              <option value="1">★☆☆☆☆ Décevant</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="temoignage-message">Votre témoignage *</label>
+            <textarea id="temoignage-message" required placeholder="Partagez votre expérience avec Vertus Ancestrales..." maxlength="1000"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> Envoyer mon témoignage
+          </button>
+        </form>
+        <div class="form-note">
+          <i class="fas fa-shield-alt" style="margin-right:var(--space-2);color:var(--color-primary);"></i>
+          Les témoignages sont modérés avant publication. Votre adresse email ne sera pas affichée publiquement.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">✦ Vertus Ancestrales</span>
+        <p>Sagesse ancestrale, beauté moderne. Cosmétiques naturels faits mains en Martinique.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorer</h4>
+        <a href="boutique.html">Boutique</a>
+        <a href="consultations.html">Consultations</a>
+        <a href="blog.html">Blog</a>
+        <a href="histoire.html">Notre Histoire</a>
+        <a href="temoignages.html">Témoignages</a>
+      </div>
+      <div class="footer-links">
+        <h4>Informations</h4>
+        <a href="#">Livraison & Retours</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Mentions Légales</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> contact@vertusancestrales.com</p>
+        <p><i class="fas fa-phone"></i> +596 696 XX XX XX</p>
+        <p><i class="fas fa-map-marker-alt"></i> Martinique</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vertus Ancestrales. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

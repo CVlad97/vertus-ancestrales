@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Vertus Ancestrales</title>
+  <meta name="description" content="Blog ésotérique et bien-être de Vertus Ancestrales : rituels, cosmétique naturelle, spiritualité et savoirs ancestraux.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      padding: var(--space-32) 0 var(--space-16);
+      background: linear-gradient(135deg, var(--color-bg) 0%, #f0e6d6 50%, var(--color-bg) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(45,90,39,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      padding: var(--space-1) var(--space-4);
+      border: 1px solid rgba(184,134,11,0.25);
+      border-radius: var(--radius-full);
+      background: rgba(184,134,11,0.06);
+    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+    .page-hero .section-desc { max-width: 600px; margin: 0 auto; }
+
+    /* Search & Categories */
+    .blog-toolbar {
+      padding: var(--space-8) 0;
+      position: sticky;
+      top: 70px;
+      background: var(--color-bg);
+      z-index: 10;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .blog-toolbar .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+      justify-content: center;
+    }
+    .blog-search-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+    .blog-search-wrap i {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-lighter);
+    }
+    #blog-search {
+      width: 100%;
+      padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      background: var(--color-white);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      transition: border-color var(--transition-fast);
+    }
+    #blog-search:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+    .category-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .category-tag {
+      padding: var(--space-2) var(--space-5);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-text-light);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      background: var(--color-white);
+    }
+    .category-tag:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .category-tag.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+
+    /* Blog grid */
+    .blog-main { padding: var(--space-16) 0 var(--space-20); }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--space-8);
+    }
+    .blog-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .blog-card .blog-img {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: var(--space-4);
+      position: relative;
+    }
+    .blog-card .blog-img i {
+      font-size: 2.5rem;
+      opacity: 0.3;
+      color: var(--color-secondary);
+    }
+    .blog-card .blog-category {
+      display: inline-block;
+      padding: var(--space-1) var(--space-3);
+      background: rgba(255,255,255,0.9);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(4px);
+    }
+    .blog-card .blog-body {
+      padding: var(--space-6);
+    }
+    .blog-card .blog-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--text-xs);
+      color: var(--color-text-lighter);
+      margin-bottom: var(--space-3);
+    }
+    .blog-card .blog-body h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-2);
+      line-height: 1.35;
+    }
+    .blog-card .blog-body h3 a {
+      color: var(--color-text);
+      transition: color var(--transition-fast);
+    }
+    .blog-card .blog-body h3 a:hover { color: var(--color-primary); }
+    .blog-card .blog-body p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+    }
+    .blog-card .blog-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .blog-card .blog-tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-full);
+    }
+    .blog-card .blog-read {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: gap var(--transition-fast);
+    }
+    .blog-card .blog-read:hover { gap: var(--space-3); }
+
+    @media (max-width: 768px) {
+      .blog-toolbar { position: relative; top: 0; }
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Vertus Ancestrales</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="consultations.html">Consultations</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="histoire.html">Notre Histoire</a></li>
+        <li><a href="temoignages.html">Témoignages</a></li>
+        <li><a href="monique.html">Monique</a></li>
+        <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="hero-badge">✦ Savoirs & Inspirations</div>
+      <h1 class="section-title">Le Blog Vertus Ancestrales</h1>
+      <p class="section-desc">Articles, rituels, réflexions et conseils pour nourrir votre corps, votre esprit et votre âme au fil des saisons.</p>
+    </div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <section class="blog-toolbar">
+    <div class="container">
+      <div class="blog-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="blog-search" placeholder="Rechercher un article..." autocomplete="off">
+      </div>
+      <div class="category-tags">
+        <span class="category-tag active" data-cat="all">Tous</span>
+        <span class="category-tag" data-cat="esoterisme">Ésotérisme</span>
+        <span class="category-tag" data-cat="ritualite">Ritualité</span>
+        <span class="category-tag" data-cat="bien-etre">Bien-être</span>
+        <span class="category-tag" data-cat="cosmetique">Cosmétique</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLES -->
+  <section class="section blog-main">
+    <div class="container">
+      <div class="blog-grid">
+
+        <!-- Article 1 -->
+        <article class="blog-card fade-in" data-category="ritualite">
+          <div class="blog-img" style="background: linear-gradient(135deg, #e8c9a0 0%, #d4a373 50%, #b8860b 100%);">
+            <span class="blog-category">Ritualité</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 12 Juin 2026</span>
+              <span><i class="far fa-clock"></i> 7 min de lecture</span>
+            </div>
+            <h3><a href="#">Les 7 Rituels de Pleine Lune pour Renouveler son Énergie</a></h3>
+            <p>Découvrez les pratiques ancestrales pour harmoniser votre être lors des nuits de pleine lune et libérer les énergies stagnantes.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">pleine lune</span>
+              <span class="blog-tag">rituels</span>
+              <span class="blog-tag">énergie</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="blog-card fade-in" data-category="bien-etre">
+          <div class="blog-img" style="background: linear-gradient(135deg, #a8c9a0 0%, #7aaa6b 50%, #2d5a27 100%);">
+            <span class="blog-category">Bien-être</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 5 Juin 2026</span>
+              <span><i class="far fa-clock"></i> 5 min de lecture</span>
+            </div>
+            <h3><a href="#">Les Bienfaits des Huiles Végétales dans votre Routine Quotidienne</a></h3>
+            <p>Comment intégrer les huiles naturelles dans vos soins de peau et vos rituels de bien-être pour une beauté authentique et respectueuse.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">huiles végétales</span>
+              <span class="blog-tag">routine</span>
+              <span class="blog-tag">soin peau</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="blog-card fade-in" data-category="esoterisme">
+          <div class="blog-img" style="background: linear-gradient(135deg, #c9a0b8 0%, #aa7a9b 50%, #6b4a6b 100%);">
+            <span class="blog-category">Ésotérisme</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 28 Mai 2026</span>
+              <span><i class="far fa-clock"></i> 8 min de lecture</span>
+            </div>
+            <h3><a href="#">Comprendre les Signes que l'Univers Vous Envoie</a></h3>
+            <p>Apprenez à décoder les synchronicités et les messages subtils du cosmos dans votre vie quotidienne pour avancer en conscience.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">synchronicité</span>
+              <span class="blog-tag">signes</span>
+              <span class="blog-tag">cosmos</span>
+              <span class="blog-tag">intuition</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="blog-card fade-in" data-category="cosmetique">
+          <div class="blog-img" style="background: linear-gradient(135deg, #d4b8a0 0%, #c49a7a 50%, #8b6914 100%);">
+            <span class="blog-category">Cosmétique</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 20 Mai 2026</span>
+              <span><i class="far fa-clock"></i> 6 min de lecture</span>
+            </div>
+            <h3><a href="#">Le Savon Noir Ancestral : Un Trésor de la Tradition Créole</a></h3>
+            <p>Plongez dans l'histoire et les bienfaits de ce soin purifiant transmis de génération en génération en Martinique.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">savon noir</span>
+              <span class="blog-tag">tradition créole</span>
+              <span class="blog-tag">purifiant</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="blog-card fade-in" data-category="ritualite">
+          <div class="blog-img" style="background: linear-gradient(135deg, #a0b8c9 0%, #6b8aaa 50%, #3b5a7a 100%);">
+            <span class="blog-category">Ritualité</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 12 Mai 2026</span>
+              <span><i class="far fa-clock"></i> 4 min de lecture</span>
+            </div>
+            <h3><a href="#">Créer son Autel Personnel : Guide pour Débutants</a></h3>
+            <p>Un espace sacré chez soi pour se recentrer, méditer et honorer les forces qui nous guident. Pas à pas, apprenez à le construire.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">autel</span>
+              <span class="blog-tag">méditation</span>
+              <span class="blog-tag">espace sacré</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Article 6 -->
+        <article class="blog-card fade-in" data-category="bien-etre">
+          <div class="blog-img" style="background: linear-gradient(135deg, #c9d4a0 0%, #aaba6b 50%, #5a7a2d 100%);">
+            <span class="blog-category">Bien-être</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span><i class="far fa-calendar-alt"></i> 2 Mai 2026</span>
+              <span><i class="far fa-clock"></i> 6 min de lecture</span>
+            </div>
+            <h3><a href="#">La Respiration Consciente : Un Rituel Quotidien pour l'Équilibre</a></h3>
+            <p>Techniques ancestrales de respiration pour apaiser le mental, réduire le stress et renouer avec son corps. Une pratique à la portée de tous.</p>
+            <div class="blog-tags">
+              <span class="blog-tag">respiration</span>
+              <span class="blog-tag">stress</span>
+              <span class="blog-tag">méditation</span>
+              <span class="blog-tag">équilibre</span>
+            </div>
+            <a href="#" class="blog-read">Lire l'article <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="section newsletter" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="newsletter-box">
+        <h2>Ne manquez aucun article</h2>
+        <p>Recevez chaque semaine nos nouveaux articles, rituels et conseils directement dans votre boîte mail.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Merci ! Vous êtes inscrit(e) à notre newsletter.');">
+          <input type="email" placeholder="Votre adresse email" required>
+          <button type="submit" class="btn btn-primary">S'abonner</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">✦ Vertus Ancestrales</span>
+        <p>Sagesse ancestrale, beauté moderne. Cosmétiques naturels faits mains en Martinique.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorer</h4>
+        <a href="boutique.html">Boutique</a>
+        <a href="consultations.html">Consultations</a>
+        <a href="blog.html">Blog</a>
+        <a href="histoire.html">Notre Histoire</a>
+        <a href="temoignages.html">Témoignages</a>
+      </div>
+      <div class="footer-links">
+        <h4>Informations</h4>
+        <a href="#">Livraison & Retours</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Mentions Légales</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> contact@vertusancestrales.com</p>
+        <p><i class="fas fa-phone"></i> +596 696 XX XX XX</p>
+        <p><i class="fas fa-map-marker-alt"></i> Martinique</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vertus Ancestrales. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut"><i class="fas fa-chevron-up"></i></button>
+
+  <script>
+    // Category tag filtering (complementary to main.js search)
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.category-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+          document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          const cat = this.dataset.cat;
+          document.querySelectorAll('.blog-card').forEach(card => {
+            card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none';
+          });
+        });
+      });
+    });
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultations — Vertus Ancestrales</title>
+  <meta name="description" content="Consultations personnalisées avec Monique Morgat : générale ou médiumnique. Réservez votre séance de bien-être en ligne.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Consultations page specific styles */
+    .page-hero {
+      padding: var(--space-32) 0 var(--space-16);
+      background: linear-gradient(135deg, var(--color-bg) 0%, #f0e6d6 50%, var(--color-bg) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 70% 30%, rgba(184,134,11,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      padding: var(--space-1) var(--space-4);
+      border: 1px solid rgba(184,134,11,0.25);
+      border-radius: var(--radius-full);
+      background: rgba(184,134,11,0.06);
+    }
+    .page-hero .section-title { font-size: clamp(2rem, 5vw, 3.5rem); }
+    .page-hero .section-desc { max-width: 660px; margin: 0 auto; }
+
+    /* Consultation type cards */
+    .consult-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-8);
+      margin: var(--space-12) 0;
+    }
+    .consult-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+      border: 1px solid var(--color-border);
+      position: relative;
+    }
+    .consult-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .consult-card.featured {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-md);
+    }
+    .consult-card.featured::before {
+      content: 'Recommandé';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .consult-card .consult-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-5);
+      font-size: 1.5rem;
+      color: var(--color-primary);
+    }
+    .consult-card h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+    }
+    .consult-card .consult-duration {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+    .consult-card p { font-size: var(--text-sm); color: var(--color-text-light); line-height: 1.7; }
+
+    /* Booking section layout */
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .booking-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Calendar */
+    .calendar-wrapper {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+    }
+    .calendar-wrapper h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-6);
+      text-align: center;
+    }
+    #calendar-placeholder {
+      width: 100%;
+    }
+    #calendar-placeholder .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      margin-bottom: var(--space-4);
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    #calendar-placeholder .cal-nav {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-1) var(--space-3);
+      cursor: pointer;
+      color: var(--color-text-light);
+      font-size: var(--text-sm);
+      transition: all var(--transition-fast);
+    }
+    #calendar-placeholder .cal-nav:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    #calendar-placeholder .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+    }
+    #calendar-placeholder .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    #calendar-placeholder .calendar-days span {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      cursor: default;
+      transition: background var(--transition-fast);
+    }
+    #calendar-placeholder .calendar-days span.available {
+      cursor: pointer;
+      color: var(--color-text);
+    }
+    #calendar-placeholder .calendar-days span.available:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+    #calendar-placeholder .calendar-days span.today {
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-weight: 700;
+    }
+    #calendar-placeholder .calendar-days span.weekend {
+      color: var(--color-text-lighter);
+    }
+
+    /* Booking form */
+    .booking-form-wrapper {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+    }
+    .booking-form-wrapper h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-6);
+    }
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+    .form-group label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-white);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      transition: border-color var(--transition-fast);
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+    .price-display {
+      text-align: center;
+      padding: var(--space-4);
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-6);
+    }
+    .price-display .price-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+    }
+    .price-display .price-amount {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-primary);
+      font-family: var(--font-heading);
+    }
+    #time-slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+    #time-slots .time-slot {
+      padding: var(--space-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-text-light);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    #time-slots .time-slot:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+    }
+    #time-slots .time-slot.selected {
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-color: var(--color-primary);
+    }
+
+    /* Info section */
+    .consult-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-8);
+      margin-top: var(--space-10);
+    }
+    .consult-info-card {
+      text-align: center;
+      padding: var(--space-8);
+    }
+    .consult-info-card .info-icon {
+      font-size: 2rem;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+    .consult-info-card h4 {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-3);
+    }
+    .consult-info-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Vertus Ancestrales</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="consultations.html" class="active">Consultations</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="histoire.html">Notre Histoire</a></li>
+        <li><a href="temoignages.html">Témoignages</a></li>
+        <li><a href="monique.html">Monique</a></li>
+        <li class="nav-cta"><a href="boutique.html"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="hero-badge">✦ Guidance & Écoute</div>
+      <h1 class="section-title">Consultations avec Monique Morgat</h1>
+      <p class="section-desc">Un espace de parole bienveillant et authentique pour vous accompagner sur votre chemin de vie. Chaque consultation est unique et adaptée à vos besoins profonds.</p>
+    </div>
+  </section>
+
+  <!-- CONSULTATION TYPES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-tag">✦ Types de Consultations</div>
+      <h2 class="section-title">Choisissez la formule qui vous correspond</h2>
+      <div class="consult-types">
+        <div class="consult-card fade-in">
+          <div class="consult-icon"><i class="fas fa-comments"></i></div>
+          <h3>Consultation Générale</h3>
+          <p class="consult-duration"><i class="far fa-clock"></i> 45 min — 70€</p>
+          <p>Un échange approfondi pour faire le point sur votre situation actuelle, clarifier vos objectifs et trouver des solutions concrètes dans une écoute sans jugement.</p>
+          <a href="#reservation" class="btn btn-outline" style="margin-top:var(--space-5);">Réserver cette consultation</a>
+        </div>
+        <div class="consult-card featured fade-in">
+          <div class="consult-icon"><i class="fas fa-eye"></i></div>
+          <h3>Consultation Médiumnique</h3>
+          <p class="consult-duration"><i class="far fa-clock"></i> 1h — 90€</p>
+          <p>Connexion aux plans subtils pour recevoir des messages guidés, éclaircir vos questionnements profonds et vous ouvrir à une compréhension élargie de votre chemin de vie.</p>
+          <a href="#reservation" class="btn btn-primary" style="margin-top:var(--space-5);">Réserver cette consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING SECTION -->
+  <section id="reservation" class="section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-tag">✦ Réservez votre séance</div>
+      <h2 class="section-title">Prenez Rendez-Vous</h2>
+      <p class="section-desc" style="margin-bottom: var(--space-12);">Choisissez votre type de consultation, une date et un créneau horaire. Je vous confirmerai votre rendez-vous sous 24h.</p>
+
+      <div class="booking-layout">
+        <!-- Calendrier -->
+        <div class="calendar-wrapper fade-in">
+          <h3><i class="far fa-calendar-alt" style="color:var(--color-primary);margin-right:var(--space-3);"></i>Calendrier des disponibilités</h3>
+          <div id="calendar-placeholder"></div>
+          <p style="font-size:var(--text-xs);color:var(--color-text-lighter);margin-top:var(--space-4);text-align:center;">
+            <i class="fas fa-circle" style="color:var(--color-primary);font-size:0.5rem;"></i> Disponible &nbsp;
+            <span style="color:var(--color-text-lighter);">Grisé = Indisponible</span>
+          </p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="booking-form-wrapper fade-in">
+          <h3><i class="fas fa-pen" style="color:var(--color-primary);margin-right:var(--space-3);"></i>Vos informations</h3>
+
+          <div class="price-display">
+            <p class="price-label">Tarif de la consultation</p>
+            <p class="price-amount" id="consult-price">70€</p>
+          </div>
+
+          <form onsubmit="event.preventDefault(); alert('Merci pour votre réservation ! Nous vous confirmons sous 24h par email.');">
+            <div class="form-group">
+              <label for="consult-name">Nom complet *</label>
+              <input type="text" id="consult-name" required placeholder="Votre nom et prénom">
+            </div>
+            <div class="form-group">
+              <label for="consult-email">Email *</label>
+              <input type="email" id="consult-email" required placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+              <label for="consult-phone">Téléphone</label>
+              <input type="tel" id="consult-phone" placeholder="+596 696 XX XX XX">
+            </div>
+            <div class="form-group">
+              <label for="consult-type">Type de consultation *</label>
+              <select id="consult-type">
+                <option value="generale">Consultation Générale — 45 min (70€)</option>
+                <option value="mediumnique">Consultation Médiumnique — 1h (90€)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="consult-date">Date souhaitée *</label>
+              <input type="date" id="consult-date" required>
+            </div>
+            <div class="form-group">
+              <label>Créneau horaire *</label>
+              <div id="time-slots" style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2);">
+                <span class="time-slot">09:00</span>
+                <span class="time-slot">10:00</span>
+                <span class="time-slot">11:00</span>
+                <span class="time-slot">14:00</span>
+                <span class="time-slot">15:00</span>
+                <span class="time-slot">16:00</span>
+                <span class="time-slot">17:00</span>
+                <span class="time-slot">18:00</span>
+                <span class="time-slot">19:00</span>
+              </div>
+              <script>
+                document.querySelectorAll('.time-slot').forEach(s => {
+                  s.addEventListener('click', function() {
+                    document.querySelectorAll('.time-slot').forEach(x => x.classList.remove('selected'));
+                    this.classList.add('selected');
+                  });
+                });
+              </script>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:var(--space-3);">
+              <i class="fas fa-calendar-check"></i> Réserver ma consultation
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT SE DÉROULE UNE CONSULTATION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-tag">✦ Déroulement</div>
+      <h2 class="section-title">Comment se prépare une consultation</h2>
+      <div class="consult-info-grid">
+        <div class="consult-info-card fade-in">
+          <div class="info-icon"><i class="fas fa-heart"></i></div>
+          <h4>Un espace sécurisé</h4>
+          <p>Chaque consultation se déroule dans un cadre bienveillant et confidentiel. Vous êtes accueilli(e) sans jugement, dans le respect de votre cheminement.</p>
+        </div>
+        <div class="consult-info-card fade-in">
+          <div class="info-icon"><i class="fas fa-microphone-alt"></i></div>
+          <h4>Une écoute active</h4>
+          <p>Monique vous écoute avec attention, reformule vos besoins et vous guide avec douceur vers vos propres réponses. Votre parole est au centre de l'échange.</p>
+        </div>
+        <div class="consult-info-card fade-in">
+          <div class="info-icon"><i class="fas fa-video"></i></div>
+          <h4>En visio ou par téléphone</h4>
+          <p>Les consultations se font à distance par appel vidéo ou téléphonique, pour vous permettre de bénéficier de cet accompagnement où que vous soyez dans le monde.</p>
+        </div>
+        <div class="consult-info-card fade-in">
+          <div class="info-icon"><i class="fas fa-envelope"></i></div>
+          <h4>Un suivi personnalisé</h4>
+          <p>Après la consultation, vous recevez un compte-rendu écrit avec les pistes évoquées et, si vous le souhaitez, des rituels ou pratiques à explorer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONIQUE CTA -->
+  <section class="section" style="background: var(--bg-alt);">
+    <div class="container" style="text-align:center;">
+      <div class="section-tag">✦ Rencontrez Monique</div>
+      <h2 class="section-title">Découvrez la femme derrière Vertus Ancestrales</h2>
+      <p style="max-width:600px;margin:0 auto var(--space-8);color:var(--color-text-light);">Avec plus de 20 ans d'expérience, Monique Morgat allie ses compétences en médecine douce à une sensibilité médiumnique unique.</p>
+      <a href="monique.html" class="btn btn-primary">En savoir plus sur Monique <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">✦ Vertus Ancestrales</span>
+        <p>Sagesse ancestrale, beauté moderne. Cosmétiques naturels faits mains en Martinique.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorer</h4>
+        <a href="boutique.html">Boutique</a>
+        <a href="consultations.html">Consultations</a>
+        <a href="blog.html">Blog</a>
+        <a href="histoire.html">Notre Histoire</a>
+        <a href="temoignages.html">Témoignages</a>
+      </div>
+      <div class="footer-links">
+        <h4>Informations</h4>
+        <a href="#">Livraison & Retours</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Mentions Légales</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> contact@vertusancestrales.com</p>
+        <p><i class="fas fa-phone"></i> +596 696 XX XX XX</p>
+        <p><i class="fas fa-map-marker-alt"></i> Martinique</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vertus Ancestrales. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
