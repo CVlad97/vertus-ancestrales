@@ -58,7 +58,7 @@ function renderProductsFromData() {
   if (!products || products.length === 0) return;
 
   grid.innerHTML = products.map(p => {
-    const imgUrl = p.image ? `url('../images/${p.image}')` : '';
+    const imgUrl = p.image ? `url('images/${p.image}')` : '';
     const gradient = 'linear-gradient(135deg, #f0dcc0, #d4a373)';
     const bgStyle = imgUrl ? `background: ${imgUrl} center/cover no-repeat, ${gradient}` : `background: ${gradient}`;
     const badgeHtml = p.badge ? `<div class="produit-badge">${p.badge}</div>` : '';
