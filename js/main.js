@@ -1,5 +1,186 @@
 // VERTUS ANCESTRALES — Main JavaScript
+
+// === PRODUCT MANAGEMENT MODULE ===
+const PRODUCT_DEFAULTS = [
+  { id:'elixir-venus', nom:"L'Élixir de Vénus", description:"Huile de soin régénérante aux huiles essentielles d'ylang-ylang et de bois de rose. Nourrit, illumine et restaure l'éclat naturel de la peau.", categorie:'huiles', image:'produit-elixir-venus.jpg', badge:'Nouveau', icone:'fa-flask', variantes:[{taille:'50ml',prix:'32€'},{taille:'100ml',prix:'48€'},{taille:'250ml',prix:'72€'}] },
+  { id:'savon-noir', nom:'Savon Noir Ancestral', description:"Savon noir purifiant à la cendre de bois de campêche et huile de coco vierge. Nettoie en profondeur tout en respectant l'équilibre de la peau.", categorie:'soins', image:'produit-savon-noir.jpg', badge:'', icone:'fa-soap', variantes:[{taille:'100g',prix:'14€'},{taille:'200g',prix:'22€'}] },
+  { id:'baume-spirituel', nom:'Baume Spirituel', description:"Baume multi-usages à base de propolis, miel de Martinique et résines naturelles. Apaise, protège et régénère les peaux sensibles.", categorie:'soins', image:'produit-baume-spirituel.jpg', badge:'Meilleure vente', icone:'fa-mortar-pestle', variantes:[{taille:'30ml',prix:'26€'},{taille:'60ml',prix:'38€'}] },
+  { id:'eau-florale', nom:'Eau Florale de Gingembre', description:"Hydrolat tonifiant et stimulant, distillé à partir de gingembre frais de Martinique. Revitalise, réchauffe et équilibre les énergies.", categorie:'huiles', image:'produit-eau-florale.jpg', badge:'', icone:'fa-spa', variantes:[{taille:'100ml',prix:'18€'},{taille:'200ml',prix:'28€'}] },
+  { id:'bougie-vetiver', nom:'Bougie Rituelle Vétiver', description:"Bougie coulée à la main en cire de soja, parfumée à l'huile essentielle de vétiver de Haïti. Idéale pour les méditations et rituels d'ancrage.", categorie:'accessoires', image:'produit-bougie-vetiver.jpg', badge:'', icone:'fa-fire', variantes:[{taille:'190g',prix:'24€'},{taille:'380g',prix:'38€'}] },
+  { id:'huile-ylang', nom:'Huile de Massage Ylang-Ylang', description:"Huile de massage onctueuse aux fleurs d'ylang-ylang de Nosy Be. Enveloppe, apaise et harmonise le corps et l'esprit.", categorie:'huiles', image:'produit-huile-ylang.jpg', badge:'', icone:'fa-hand-sparkles', variantes:[{taille:'100ml',prix:'34€'},{taille:'250ml',prix:'54€'}] }
+];
+
+function getProducts() {
+  try {
+    const stored = localStorage.getItem('va_products');
+    if (stored) return JSON.parse(stored);
+  } catch(e) { console.warn('Failed to parse va_products', e); }
+  return JSON.parse(JSON.stringify(PRODUCT_DEFAULTS));
+}
+
+function saveProducts(products) {
+  localStorage.setItem('va_products', JSON.stringify(products));
+}
+
+function getCategoryLabel(val) {
+  const map = { huiles:'Huiles & Élixirs', soins:'Soins Corps', accessoires:'Accessoires Rituels' };
+  return map[val] || val;
+}
+
+// Render products from localStorage data on boutique.html
+function renderProductsFromData() {
+  const grid = document.querySelector('.boutique-grid .produits-grid');
+  if (!grid) return;
+  const products = getProducts();
+  if (!products || products.length === 0) return;
+
+  grid.innerHTML = products.map(p => {
+    const imgUrl = p.image ? `url('../images/${p.image}')` : '';
+    const gradient = 'linear-gradient(135deg, #f0dcc0, #d4a373)';
+    const bgStyle = imgUrl ? `background: ${imgUrl} center/cover no-repeat, ${gradient}` : `background: ${gradient}`;
+    const badgeHtml = p.badge ? `<div class="produit-badge">${p.badge}</div>` : '';
+    const variantesHtml = (p.variantes || []).map((v, vi) =>
+      `<span class="variante${vi===0?' active':''}">${v.taille} — ${v.prix}</span>`
+    ).join('');
+
+    return `<div class="produit-card fade-in" data-category="${p.categorie}" data-product-id="${p.id}">
+      ${badgeHtml}
+      <div class="produit-img" style="${bgStyle}">
+        <i class="fas ${p.icone || 'fa-box'}" style="color:#8b6914;"></i>
+      </div>
+      <div class="produit-info">
+        <h3>${p.nom}</h3>
+        <p class="produit-desc">${p.description}</p>
+        <div class="produit-variantes">${variantesHtml}</div>
+        <button class="btn-add-cart"><i class="fas fa-shopping-bag"></i> Ajouter au panier</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Admin-only functions (checked via #admin-mode exists on page)
+function renderProductTable() {
+  const tbody = document.getElementById('product-table-body');
+  if (!tbody) return;
+  const products = getProducts();
+  tbody.innerHTML = products.map(p => {
+    const variantesStr = (p.variantes || []).map(v => v.taille+' — '+v.prix).join(', ');
+    const imgPath = p.image ? `../images/${p.image}` : '';
+    const imgHtml = imgPath ? `<img src="${imgPath}" alt="${p.nom}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />` : '';
+    const fallbackHtml = `<div style="width:50px;height:50px;border-radius:6px;background:#f0e6d6;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#b8860b;display:none;"><i class="fas ${p.icone || 'fa-box'}"></i></div>`;
+    return `<tr>
+      <td>${imgHtml}${fallbackHtml}</td>
+      <td><strong>${p.nom}</strong></td>
+      <td>${getCategoryLabel(p.categorie)}</td>
+      <td style="font-size:0.85rem;">${variantesStr}</td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="openEditModal('${p.id}')" style="margin-right:0.25rem;"><i class="fas fa-edit"></i> Modifier</button>
+        <button class="btn btn-sm btn-outline" onclick="deleteProduct('${p.id}')" style="color:#c0392b;border-color:#c0392b;"><i class="fas fa-trash"></i> Supprimer</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openEditModal(productId) {
+  const modal = document.getElementById('product-modal');
+  if (!modal) return;
+  const title = document.getElementById('modal-title');
+  const products = getProducts();
+
+  document.getElementById('edit-product-id').value = productId || '';
+  const container = document.getElementById('variantes-container');
+  if (container) container.innerHTML = '';
+
+  if (productId) {
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
+    title.textContent = 'Modifier le Produit';
+    document.getElementById('modal-nom').value = p.nom;
+    document.getElementById('modal-categorie').value = p.categorie;
+    document.getElementById('modal-description').value = p.description;
+    document.getElementById('modal-image').value = p.image || '';
+    (p.variantes || []).forEach(v => addVarianteRow(v.taille, v.prix));
+  } else {
+    title.textContent = 'Ajouter un Produit';
+    document.getElementById('modal-nom').value = '';
+    document.getElementById('modal-categorie').value = 'huiles';
+    document.getElementById('modal-description').value = '';
+    document.getElementById('modal-image').value = '';
+    addVarianteRow('', '');
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeEditModal() {
+  const modal = document.getElementById('product-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function addVarianteRow(taille, prix) {
+  const container = document.getElementById('variantes-container');
+  if (!container) return;
+  const row = document.createElement('div');
+  row.className = 'variante-row';
+  row.style.cssText = 'display:flex; gap:0.5rem; margin-bottom:0.5rem;';
+  row.innerHTML = `
+    <input type="text" class="input" placeholder="Taille (ex: 50ml)" style="flex:1;" name="variante-taille" value="${taille || ''}">
+    <input type="text" class="input" placeholder="Prix (ex: 32€)" style="flex:1;" name="variante-prix" value="${prix || ''}">
+    <button type="button" class="btn btn-sm btn-outline" onclick="this.parentElement.remove()" style="flex-shrink:0;"><i class="fas fa-times"></i></button>
+  `;
+  container.appendChild(row);
+}
+
+function saveProductFromModal() {
+  const editId = document.getElementById('edit-product-id').value;
+  const products = getProducts();
+
+  const variantes = [];
+  document.querySelectorAll('.variante-row').forEach(row => {
+    const t = row.querySelector('[name="variante-taille"]')?.value.trim();
+    const p = row.querySelector('[name="variante-prix"]')?.value.trim();
+    if (t || p) variantes.push({ taille: t, prix: p });
+  });
+
+  const productData = {
+    id: editId || 'prod-' + Date.now(),
+    nom: document.getElementById('modal-nom').value.trim(),
+    categorie: document.getElementById('modal-categorie').value,
+    description: document.getElementById('modal-description').value.trim(),
+    image: document.getElementById('modal-image').value.trim(),
+    badge: '',
+    icone: 'fa-box',
+    variantes: variantes
+  };
+
+  if (!productData.nom) { alert('Le nom du produit est requis.'); return; }
+
+  if (editId) {
+    const idx = products.findIndex(x => x.id === editId);
+    if (idx >= 0) products[idx] = productData;
+    else products.push(productData);
+  } else {
+    products.push(productData);
+  }
+
+  saveProducts(products);
+  renderProductTable();
+  closeEditModal();
+  if (typeof showToast === 'function') showToast('✓ Produit enregistré');
+}
+
+function deleteProduct(productId) {
+  if (!confirm('Supprimer ce produit ?')) return;
+  const products = getProducts().filter(p => p.id !== productId);
+  saveProducts(products);
+  renderProductTable();
+  if (typeof showToast === 'function') showToast('✓ Produit supprimé');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  // === RENDER PRODUCTS FROM LOCALSTORAGE (boutique.html) ===
+  renderProductsFromData();
 
   // === NAVBAR SCROLL EFFECT ===
   const navbar = document.getElementById('navbar');
@@ -40,9 +221,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === FADE-IN ON SCROLL ===
-  const fadeElements = document.querySelectorAll('.fade-in');
-  if (fadeElements.length > 0) {
+  // === FADE-IN ON SCROLL (with re-init support) ===
+  function initFadeIn() {
+    const fadeElements = document.querySelectorAll('.fade-in');
+    if (fadeElements.length === 0) return;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -53,21 +235,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
     fadeElements.forEach(el => observer.observe(el));
   }
+  initFadeIn();
 
-  // === STAGGER CARDS ===
-  document.querySelectorAll('.produits-grid, .blog-grid, .valeurs-grid, .temoignages-strip').forEach(grid => {
-    grid.querySelectorAll('.fade-in').forEach((card, i) => {
-      card.style.transitionDelay = `${i * 0.1}s`;
+  // === STAGGER CARDS (dynamic) ===
+  function initStagger() {
+    document.querySelectorAll('.produits-grid, .blog-grid, .valeurs-grid, .temoignages-strip').forEach(grid => {
+      grid.querySelectorAll('.fade-in').forEach((card, i) => {
+        card.style.transitionDelay = `${i * 0.1}s`;
+      });
     });
+  }
+  initStagger();
+
+  // === PRODUCT VARIANT SELECTOR (event delegation) ===
+  document.addEventListener('click', function(e) {
+    const variante = e.target.closest('.variante');
+    if (variante) {
+      const siblings = variante.closest('.produit-variantes').querySelectorAll('.variante');
+      siblings.forEach(s => s.classList.remove('active'));
+      variante.classList.add('active');
+    }
   });
 
-  // === PRODUCT VARIANT SELECTOR ===
-  document.querySelectorAll('.variante').forEach(v => {
-    v.addEventListener('click', function() {
-      const siblings = this.closest('.produit-variantes').querySelectorAll('.variante');
-      siblings.forEach(s => s.classList.remove('active'));
-      this.classList.add('active');
-    });
+  // === CART BUTTONS (event delegation) ===
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn-add-cart');
+    if (btn) {
+      e.preventDefault();
+      cartCount++;
+      localStorage.setItem('vaCartCount', cartCount);
+      if (cartBadge) {
+        cartBadge.textContent = cartCount;
+        cartBadge.style.display = 'flex';
+      }
+      const name = btn.closest('.produit-info')?.querySelector('h3')?.textContent || 'Produit';
+      showToast(`✓ ${name} ajouté au panier`);
+    }
   });
 
   // === CALENDAR PLACEHOLDER ===
@@ -112,20 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cartBadge.textContent = cartCount;
     cartBadge.style.display = cartCount > 0 ? 'flex' : 'none';
   }
-
-  document.querySelectorAll('.btn-add-cart').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      cartCount++;
-      localStorage.setItem('vaCartCount', cartCount);
-      if (cartBadge) {
-        cartBadge.textContent = cartCount;
-        cartBadge.style.display = 'flex';
-      }
-      const name = this.closest('.produit-info')?.querySelector('h3')?.textContent || 'Produit';
-      showToast(`✓ ${name} ajouté au panier`);
-    });
-  });
 
   // === TOAST ===
   function showToast(msg) {
